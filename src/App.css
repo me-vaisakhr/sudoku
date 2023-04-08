@@ -1,0 +1,40 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  border-spacing: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.sudoku-grid {
+  border: 4px solid black;
+}
+
+.parentRow {
+  display: inherit;
+}
+
+.parentRow:last-child {
+  border-bottom: 2px solid black;
+}
+
+.parentRow:nth-child(3n+1) {
+  border-top: 2px solid black;
+}
+
+.childColumn {}
+
+.childColumn:first-child {
+  border-left: 2px solid black;
+}
+
+.childColumn:nth-child(3n) {
+  border-right: 2px solid black;
+}
