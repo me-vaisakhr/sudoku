@@ -10,7 +10,7 @@
     align-items: center;
 }
 
-.grid-item:nth-last-child(),
+.grid-item:nth-last-child,
 .grid-item:nth-child(3n) {
     border-bottom: 1px solid;
 }
@@ -30,7 +30,7 @@
     }
 
     .grid-item:nth-child(3n),
-    .grid-item:nth-last-child() {
+    .grid-item:nth-last-child {
         border-bottom: 1px solid;
     }
 }
