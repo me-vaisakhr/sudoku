@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect } from "react";
 import "./App.css";
 import useSudoku from "./hooks/useSudoku";
-import Grid from "./components/Grid";
+import Sudoku from "./components/Sudoku";
 
 function App() {
   const { board, generateSudoku } = useSudoku();
@@ -14,25 +12,7 @@ function App() {
 
   return (
     <main className="App">
-      <table className="sudoku-grid">
-        <tbody>
-          {board.map((rows, rowIndex) => {
-            return (
-              <tr key={`grid-row-${rowIndex}`} className="parentRow">
-                {rows.map((col, colIndex) => {
-                  return (
-                    <td className="childColumn" key={`grid-col-${rowIndex}-${colIndex}`}>
-                      <Grid>
-                        {col !== 0 && col}
-                      </Grid>
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <Sudoku board={board} />
     </main>
   );
 }

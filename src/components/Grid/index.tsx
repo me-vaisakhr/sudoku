@@ -5,7 +5,7 @@ interface GridProps {
 }
 
 const Grid: FC<PropsWithChildren<GridProps>> = ({ children }) => {
-  return <div className="grid">{children}</div>;
+  return <div className="grid-item">{children}</div>;
 };
 
 export default memo(Grid);
