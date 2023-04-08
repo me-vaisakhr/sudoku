@@ -1,6 +1,36 @@
-.grid {
+.grid-item {
     padding: 14px;
-    border: 1px solid black;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-color: #d2d2d2;
     width: 20px;
     height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-item:nth-last-child(),
+.grid-item:nth-child(3n) {
+    border-bottom: 1px solid;
+}
+
+@media only screen and (max-width: 900px) {
+    .grid-item {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .grid-item {
+        border-left: 1px solid;
+        border-top: 1px solid;
+        border-color: #6f6e6e;
+    }
+
+    .grid-item:nth-child(3n),
+    .grid-item:nth-last-child() {
+        border-bottom: 1px solid;
+    }
 }
