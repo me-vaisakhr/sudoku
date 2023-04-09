@@ -60,7 +60,6 @@ const BoardItem: FC<PropsWithChildren<BoardItemProps>> = ({
   const handleEditValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!isEditable) return;
     const value = e.target.value;
-    if (!isNumber(value)) return;
     if (Number(value) >= 10) return;
     setEditedValue(Number(e.target.value));
   };
