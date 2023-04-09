@@ -1,6 +1,7 @@
-import { flattenDeep } from "lodash";
+import { flattenDeep, uniq } from "lodash";
 import React, { FC, useEffect, useState } from "react";
 import { BoardItem as BoardItemProps } from "../../model/sudoku";
+import { SUDOKU_MAX_COLS, SUDOKU_MAX_ROWS } from "../../utils/constants";
 import BoardItem from "../BoardItem";
 import "./sudoku.css";
 
@@ -20,6 +21,7 @@ const Sudoku: FC<SudokuProps> = ({
   const [normalizedBoard, setNormalizedBoard] = useState<BoardItemProps[][]>(
     []
   );
+  const [focusedCoords, setFocusCoords] = useState<string[]>([]);
 
   const getNormalizedBoard = (
     withError?: boolean
@@ -98,6 +100,41 @@ const Sudoku: FC<SudokuProps> = ({
     onSudokuBoardCompleted?.(getDenormalizeBoard());
   }, [isCompleted, normalizedBoard]);
 
+  const generateFoucusedNeighbours = (row: number, column: number) => {
+    let neighbours = [];
+    //row coords
+    for (let i = 0; i < SUDOKU_MAX_ROWS; i++) {
+      neighbours.push(`${row}, ${i}`);
+    }
+
+    //col cords
+    for (let i = 0; i < SUDOKU_MAX_COLS; i++) {
+      neighbours.push(`${i}, ${column}`);
+    }
+
+    //subgrid coords
+    const rowInSmallMatrix = row % Math.sqrt(SUDOKU_MAX_ROWS);
+    const colInSmallMatrix = column % Math.sqrt(SUDOKU_MAX_COLS);
+    const startingRow = row - rowInSmallMatrix;
+    const startingCol = column - colInSmallMatrix;
+    const endingRow = startingRow + (Math.sqrt(SUDOKU_MAX_ROWS) - 1);
+    const endingCol = startingCol + (Math.sqrt(SUDOKU_MAX_COLS) - 1);
+
+    for (let i = startingRow; i <= endingRow; i++)
+      for (let j = startingCol; j <= endingCol; j++)
+        neighbours.push(`${i}, ${j}`);
+
+    return uniq([...neighbours]);
+  };
+
+  const handleFocusNeighbours = (row: number, column: number) => {
+    setFocusCoords(generateFoucusedNeighbours(row, column));
+  };
+
+  const handleBlurNeighbours = (row: number, column: number) => {
+    setFocusCoords([]);
+  };
+
   return (
     <table className="sudoku">
       <tbody className="sudoku-body">
@@ -114,8 +151,12 @@ const Sudoku: FC<SudokuProps> = ({
                       value={col.value}
                       row={rowIndex}
                       column={colIndex}
-                      isEditable={col.isEditable}
+                      isFocused={focusedCoords.includes(`${rowIndex}, ${colIndex}`)}
+                      correctValue={solution[rowIndex][colIndex] || 0}
+                      isEditable={true}//col.isEditable}
                       isError={col.isError}
+                      onFocus={handleFocusNeighbours}
+                      onBlur={handleBlurNeighbours}
                       onEdit={handleUpdateBoard}
                     />
                   </td>
