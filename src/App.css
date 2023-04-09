@@ -9,6 +9,7 @@
   margin: 0;
   border-spacing: 0;
   font-family: 'Montserrat', sans-serif;
+  user-select: none;
   font-family: 'Source Sans Pro', sans-serif;
 }
 

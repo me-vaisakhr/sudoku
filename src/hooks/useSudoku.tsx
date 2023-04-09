@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { Sudoku } from "../lib/Sudoku";
 import { DIFFICULTY } from "../model/sudoku";
 import { DIFFICULTY_MODES } from "../utils/constants";
-import { cloneDeep, flattenDeep } from "lodash";
+import { cloneDeep } from "lodash";
 
-const MAX_ROW = 9;
-const MAX_COL = 9;
 const useSudoku = () => {
   const INITIAL_SUDOKU_GRID = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
