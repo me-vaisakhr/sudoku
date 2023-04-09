@@ -1,3 +1,4 @@
+import { isNumber } from "lodash";
 import React, {
   ChangeEvent,
   FC,
@@ -58,6 +59,9 @@ const BoardItem: FC<PropsWithChildren<BoardItemProps>> = ({
 
   const handleEditValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!isEditable) return;
+    const value = e.target.value;
+    if (!isNumber(value)) return;
+    if (Number(value) >= 10) return;
     setEditedValue(Number(e.target.value));
   };
 
@@ -72,7 +76,7 @@ const BoardItem: FC<PropsWithChildren<BoardItemProps>> = ({
         <input
           value={editedValue || ""}
           autoFocus
-          type="text"
+          type="number"
           min={1}
           max={9}
           pattern="\d+"
