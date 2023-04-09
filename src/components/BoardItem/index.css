@@ -35,6 +35,12 @@
     font-size: 24px;
 }
 
+.error {
+    background-color: #ff0000ab;
+    color: white;
+    border-color: #ff0000ab !important;
+}
+
 @media only screen and (max-width: 900px) {
     .grid-item {
         width: 10px;

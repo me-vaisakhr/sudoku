@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Sudoku } from "../lib/Sudoku";
 import { DIFFICULTY } from "../model/sudoku";
 import { DIFFICULTY_MODES } from "../utils/constants";
-import { flattenDeep } from "lodash";
+import { cloneDeep, flattenDeep } from "lodash";
 
 const MAX_ROW = 9;
 const MAX_COL = 9;
@@ -23,16 +23,15 @@ const useSudoku = () => {
   const [board, setBoard] = useState<number[][]>([]);
 
   const generateSudoku = (mode: DIFFICULTY = "EASY") => {
+    setSolution(INITIAL_SUDOKU_GRID);
+    setBoard(INITIAL_SUDOKU_GRID);
     const sudoku = new Sudoku();
-    const sudokuSolution = sudoku.generate(INITIAL_SUDOKU_GRID);
-    setSolution(sudokuSolution);
-    setBoard(sudoku.generateBoard(sudokuSolution, DIFFICULTY_MODES[mode]));
-
-    console.info("SOLUTION => ", sudokuSolution);
-    console.info("BOARD => ", board);
+    const generatedSolution = sudoku.generate(INITIAL_SUDOKU_GRID);
+    setSolution(cloneDeep(generatedSolution));
+    setBoard(cloneDeep(sudoku.generateBoard(generatedSolution, DIFFICULTY_MODES[mode])));
   };
 
-  return { board, generateSudoku };
+  return { board, solution, generateSudoku };
 };
 
 export default useSudoku;
