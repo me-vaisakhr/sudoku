@@ -100,11 +100,11 @@ export class Sudoku {
   ): number[][] {
     if (!solution.length) console.error("BAD SOLUTION RECEIVED!!!");
     let removeCount = difficulty;
-    let board = solution;
+    let board = [...solution];
     let list = Array(this.MAX_ROWS * this.MAX_COLS)
       .fill(0)
       .map((_, index) => index);
-    while (removeCount >= 0) {
+    while (removeCount > 0) {
       const randomIndex = this.getRandomNumberFromList(list);
       board[this.getCellRow(randomIndex)][this.getCellCol(randomIndex)] = 0;
       list.splice(list.indexOf(randomIndex), 1);

@@ -5,16 +5,16 @@ import React, {
   PropsWithChildren,
   useState,
 } from "react";
-import { BoardItem } from "../../model/sudoku";
+import { BoardItem as BoardProps } from "../../model/sudoku";
 import "./index.css";
 
-interface GridProps extends BoardItem {
+interface BoardItemProps extends BoardProps {
   row: number;
   column: number;
   onEdit?: (value: number, row: number, column: number) => void;
 }
 
-const Grid: FC<PropsWithChildren<GridProps>> = ({
+const BoardItem: FC<PropsWithChildren<BoardItemProps>> = ({
   row,
   column,
   value,
@@ -23,8 +23,10 @@ const Grid: FC<PropsWithChildren<GridProps>> = ({
   onEdit,
 }) => {
   const [editEnabled, setEditable] = useState<boolean>(false);
-  const [editedValue, setEditedValue] = useState<number>(-1);
+  const [editedValue, setEditedValue] = useState<number>(0);
+
   const handleEditField = () => {
+    if (isError) return;
     if (!isEditable) return;
     setEditable(true);
   };
@@ -33,13 +35,13 @@ const Grid: FC<PropsWithChildren<GridProps>> = ({
     setEditable(false);
   };
 
-  const handleBlur = () => {
+  const handleOutOfFocus = () => {
     if (!isEditable) return;
-    if (editedValue === -1) return;
-
+    const newValue = editedValue === 0 ? value : editedValue;
     handleRemoveEdit();
-    onEdit?.(editedValue, row, column);
-    setEditedValue(-1);
+    setEditedValue(0);
+
+    onEdit?.(newValue, row, column);
   };
 
   const handleEditValueChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +53,7 @@ const Grid: FC<PropsWithChildren<GridProps>> = ({
     <div
       className={`grid-item ${isEditable && !editEnabled && "editable"} ${
         editEnabled && "editable-enabled"
-      }`}
+      } ${isError && "error"}`}
       onClick={handleEditField}
     >
       {editEnabled ? (
@@ -60,8 +62,13 @@ const Grid: FC<PropsWithChildren<GridProps>> = ({
           type="number"
           maxLength={1}
           onChange={handleEditValueChange}
-          onBlur={handleBlur}
-          pattern="[0-9]"
+          onBlur={handleOutOfFocus}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleOutOfFocus();
+            }
+          }}
+          pattern="[1-9]"
           className="text-box"
         />
       ) : (
@@ -71,4 +78,4 @@ const Grid: FC<PropsWithChildren<GridProps>> = ({
   );
 };
 
-export default memo(Grid);
+export default memo(BoardItem);
