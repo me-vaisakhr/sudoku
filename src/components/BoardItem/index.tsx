@@ -1,4 +1,3 @@
-import { isNumber } from "lodash";
 import React, {
   ChangeEvent,
   FC,
@@ -26,6 +25,7 @@ const BoardItem: FC<PropsWithChildren<BoardItemProps>> = ({
   correctValue,
   isEditable,
   isFocused,
+  isCorrect,
   isError,
   onEdit,
   onFocus,
@@ -68,7 +68,9 @@ const BoardItem: FC<PropsWithChildren<BoardItemProps>> = ({
     <div
       className={`grid-item ${isEditable && !editEnabled && "editable"} ${
         editEnabled && "editable-enabled"
-      } ${isError && "error"} ${isFocused && "focus"}`}
+      } ${isError && "error"} ${isFocused && "focus"} ${
+        isCorrect && "correct"
+      }`}
       onClick={handleEditField}
     >
       {editEnabled ? (

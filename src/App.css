@@ -34,7 +34,40 @@ button:hover {
   margin: 0 16px;
 }
 
+.modes-nav {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid;
+}
+
+.modes-nav-item {
+  list-style-type: none;
+}
+
+.mode-nav-item-selector,
+.mode-nav-item-selector:hover {
+  margin: 0 !important;
+  border-width: 0;
+  background-color: transparent;
+  border-radius: 8px 8px 0 0;
+}
+
+.mode-nav-item-selector:hover,
+.mode-nav-item-selector_active {
+  border-width: 1px;
+  border-bottom: 0px;
+  background-color: #f9f9f9;
+  margin: 0;
+  transition: all 0.5s ease-in;
+  color: black;
+}
+
+.footer{
+  letter-spacing: 0.2em;
+}
+
 @media (prefers-color-scheme: dark) {
+
   button,
   button:focus,
   button:hover {

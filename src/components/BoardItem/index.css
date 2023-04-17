@@ -37,6 +37,10 @@
     text-align: center;
 }
 
+.correct{
+    background-color: lightgreen;
+}
+
 .error {
     background-color: #ff0000ab;
     color: white;
