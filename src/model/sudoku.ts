@@ -4,4 +4,5 @@ export interface BoardItem {
   value: number;
   isEditable?: boolean;
   isError?: boolean;
+  isCorrect?: boolean;
 }

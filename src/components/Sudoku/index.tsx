@@ -15,7 +15,7 @@ interface SudokuProps {
 const Sudoku: FC<SudokuProps> = ({
   board,
   solution,
-  showErrors,
+  showErrors: showSolution,
   onSudokuBoardCompleted,
 }) => {
   const [normalizedBoard, setNormalizedBoard] = useState<BoardItemProps[][]>(
@@ -24,11 +24,11 @@ const Sudoku: FC<SudokuProps> = ({
   const [focusedCoords, setFocusCoords] = useState<string[]>([]);
 
   const getNormalizedBoard = (
-    withError?: boolean
+    withSolution?: boolean
   ): BoardItemProps[][] | undefined => {
     if (
-      withError &&
-      (!showErrors || !normalizedBoard.length || !solution.length)
+      withSolution &&
+      (!showSolution || !normalizedBoard.length || !solution.length)
     )
       return;
 
@@ -36,13 +36,20 @@ const Sudoku: FC<SudokuProps> = ({
       return rows.map((item, cIndex) => {
         return {
           value:
-            showErrors && withError
+            showSolution && withSolution
               ? normalizedBoard[rIndex][cIndex].value
               : item,
           isEditable: item === 0,
+          isCorrect:
+            showSolution &&
+            withSolution &&
+            normalizedBoard[rIndex][cIndex].isEditable &&
+            solution[rIndex][cIndex] === normalizedBoard[rIndex][cIndex].value
+              ? true
+              : false,
           isError:
-            showErrors &&
-            withError &&
+            showSolution &&
+            withSolution &&
             solution[rIndex][cIndex] !== normalizedBoard[rIndex][cIndex].value
               ? true
               : false,
@@ -60,11 +67,11 @@ const Sudoku: FC<SudokuProps> = ({
   }, [board]);
 
   useEffect(() => {
-    if (!showErrors) return;
+    if (!showSolution) return;
     const normalizedWithError = getNormalizedBoard(true);
     if (!normalizedWithError) return;
     setNormalizedBoard(normalizedWithError);
-  }, [showErrors]);
+  }, [showSolution]);
 
   const handleUpdateBoard = (value: number, row: number, column: number) => {
     let currentBoard = [...normalizedBoard];
@@ -151,7 +158,10 @@ const Sudoku: FC<SudokuProps> = ({
                       value={col.value}
                       row={rowIndex}
                       column={colIndex}
-                      isFocused={focusedCoords.includes(`${rowIndex}, ${colIndex}`)}
+                      isFocused={focusedCoords.includes(
+                        `${rowIndex}, ${colIndex}`
+                      )}
+                      isCorrect={col.isCorrect}
                       correctValue={solution[rowIndex][colIndex] || 0}
                       isEditable={col.isEditable}
                       isError={col.isError}
