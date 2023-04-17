@@ -51,7 +51,7 @@ function App() {
 
   return (
     <main className="App">
-      <h2 className="title">Sudoku</h2>
+      <h2 className="title colorful-text">Sudoku</h2>
       <nav className="modes-nav">
         {Object.keys(DIFFICULTY_MODES).map((mode, index) => (
           <li key={`modes-${index}`} className="modes-nav-item">
@@ -90,7 +90,9 @@ function App() {
         </button>
       )}
 
-      <article className="footer">MADE WITH ❤️ • VAISAKH R KRISHNAN </article>
+      <article className="footer">
+        MADE WITH ❤️ <span className="colorful-text"> VAISAKH R KRISHNAN </span>{" "}
+      </article>
     </main>
   );
 }
